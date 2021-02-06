@@ -30,6 +30,11 @@ public class CreditCard {
         this.balance = balance;
     }
 
+    /** Used by spring JPA to populate data from the database*/
+        public CreditCard() {
+        // default constructor
+    }
+
     public String getName() {
         return name;
     }

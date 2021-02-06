@@ -22,6 +22,7 @@ public class CreditsApiController implements CreditsApi {
 
     @Override
     public ResponseEntity addCreditCard(String xCorrelationId, @Valid CreditCardDetails creditCardDetails) {
+        cardProcessingService.addCredits(creditCardDetails);
         return ResponseEntity.status(HttpStatus.OK).header(X_CORRELATION_ID,xCorrelationId).build();
     }
 
