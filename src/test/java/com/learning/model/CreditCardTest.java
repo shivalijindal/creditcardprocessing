@@ -10,11 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 public class CreditCardTest {
 
-    @BeforeEach
-    public void setup() {
-        System.out.println("Before Each Test");
-    }
-
     @Test
     public void testCreditCard() {
         CreditCard creditCard = CreditCard.builder()
