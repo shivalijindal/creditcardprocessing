@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Credit Card Provider
+  description: 'This is a credit card processing application.'
+  contact:
+    email: creditcard@sample.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/ccp
+tags:
+  - name: ccp
+    description: Credit card processing
+paths:
+  /credits:
+    post:
+      tags:
+        - ccp
+      summary: Add a credit card to the store
+      operationId: addCreditCard
+      parameters:
+        - name: X-Correlation-Id
+          in: header
+          example: 0987-0976-7264
+          schema:
+            type: string
+          description: Unique Identification for tracking purpose
+          required: true
+      requestBody:
+        description: Credit Card Object that should be added to the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCardDetails'
+        required: true
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+    get:
+      tags:
+        - ccp
+      summary: Get all credit card details
+      operationId: getCreditCards
+      parameters:
+        - name: X-Correlation-Id
+          in: header
+          example: 0987-0976-7264
+          schema:
+            type: string
+          description: Unique Identification for tracking purpose
+          required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditCardDetails'
+        400:
+          description: Invalid status value
+          content: {}
+components:
+  schemas:
+    CreditCardDetails:
+      required:
+        - name
+        - cardNumber
+        - limit
+      type: object
+      properties:
+        name:
+          type: string
+          example: John
+        cardNumber:
+          type: integer
+          format: int64
+          example: 654428635281
+        limit:
+          type: number
+          format: double
+          example: 100000
+        balance:
+          type: number
+          format: double
+          example: 10000
