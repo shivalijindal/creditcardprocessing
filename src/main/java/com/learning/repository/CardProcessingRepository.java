@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface CardProcessingRepository extends JpaRepository<CreditCard, Long> {
 
     @Query("SELECT t FROM CreditCard t where t.cardNumber = :cardNumber")
-    public Optional<CreditCard> findByCardNumber(BigInteger cardNumber);
+    Optional<CreditCard> findByCardNumber(BigInteger cardNumber);
 
 }

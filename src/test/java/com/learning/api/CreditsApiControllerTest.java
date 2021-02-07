@@ -39,7 +39,7 @@ public class CreditsApiControllerTest {
         mvc.perform(MockMvcRequestBuilders.post("/ccp/credits")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("X-Correlation-Id","5645282")
-                .content(request()))
+                .content(body()))
         .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -48,24 +48,48 @@ public class CreditsApiControllerTest {
     public void testGetCredits() throws Exception{
         //Create Mock data
         CreditCardDetails creditCard = new CreditCardDetails();
-        creditCard.name("Tim")
-                .cardNumber(new BigInteger("73342639365"))
-                .limit(BigDecimal.valueOf(300000))
+        creditCard.name("John")
+                .cardNumber(new BigInteger("654428635281"))
+                .limit(BigDecimal.valueOf(100000))
                 .balance(BigDecimal.valueOf(100));
 
         //Mock getAllCredits service call
         Mockito.when(cardProcessingService.getAllCreditCardDetails()).thenReturn(List.of(creditCard));
 
-        String details = mvc.perform(MockMvcRequestBuilders.get("/ccp/credits")
+        mvc.perform(MockMvcRequestBuilders.get("/ccp/credits")
                 .accept(MediaType.APPLICATION_JSON)
                 .header("X-Correlation-Id","5645282"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        System.out.println("Output: " + details);
+                .andExpect(MockMvcResultMatchers.content().json(responseBody()));
     }
 
-    private String request() {
+    @DisplayName("Test Add Credit Card Detail Card Validation Failure")
+    @Test
+    public void testAddCredits_ValidationFailure() throws Exception{
+        //Mock addCredits service call
+        Mockito.doThrow(new IllegalArgumentException("Error")).when(cardProcessingService).addCredits(Mockito.any(CreditCardDetails.class));
+
+        mvc.perform(MockMvcRequestBuilders.post("/ccp/credits")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("X-Correlation-Id","5645282")
+                .content(body()))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().json(failResponseBody()));
+    }
+
+    private String body() {
         return "{\"name\": \"John\",\"cardNumber\": 654428635281,\"limit\": 100000}";
+    }
+
+    private String responseBody() {
+        return "[{\"name\": \"John\",\"cardNumber\": 654428635281,\"limit\": 100000, \"balance\":100}]";
+    }
+
+    private String failResponseBody() {
+        return "{\n" +
+                "  \"reasonCode\": \"1400\",\n" +
+                "  \"description\": \"BAD_REQUEST: Error\",\n" +
+                "  \"source\": \"CCP\"\n" +
+                "}";
     }
 }

@@ -27,7 +27,7 @@ public class CreditCard {
     @Column(name = "card_balance")
     private BigDecimal balance;
 
-    CreditCard(final Long id, final String name, final BigInteger cardNumber, final BigDecimal limit, final BigDecimal balance) {
+    private CreditCard(final Long id, final String name, final BigInteger cardNumber, final BigDecimal limit, final BigDecimal balance) {
         this.id = id;
         this.name = name;
         this.cardNumber = cardNumber;
@@ -36,7 +36,7 @@ public class CreditCard {
     }
 
     /** Used by spring JPA to populate data from the database*/
-        public CreditCard() {
+    public CreditCard() {
         // default constructor
     }
 

@@ -16,9 +16,11 @@ The application would start on port 8081 (This can be identified using the logs)
 # Test
 1. Check Url: http://localhost:8081/actuator/health for health of the service.
 2. Test Urls as below:
- a) http://localhost:8081/ccp/credits as POST for adding new credit.
-    Mandatory headers: X-Correlation-Id for tracking purpose.
-    Request Body(Sample):
+a) http://localhost:8081/ccp/credits as POST for adding new credit.
+
+   Mandatory headers: X-Correlation-Id for tracking purpose.
+
+   Request Body(Sample):
         {
           "name": "Alice",
           "cardNumber": 13245675,
@@ -26,39 +28,52 @@ The application would start on port 8081 (This can be identified using the logs)
           "balance": 10000
         }
 
-    Response Body(Sample):
-    200 OK - No Response Body
-    400/415/500 -
+   Response Body(Sample):
+   200 OK - No Response Body
+
+   400/415/500 -
         {
           "reasonCode": "1001",
           "description": "Invalid Data Received",
           "source": "CCP"
         }
 
- b) http://localhost:8081/ccp/credits as GET for getting all credits.
-    Mandatory headers: X-Correlation-Id for tracking purpose.
-    Request Body: No Body Required.
-    Response Body:
-    200 OK -
-        [
-          {
-            "name": "John",
-            "cardNumber": 654428635281,
-            "limit": 100000,
-            "balance": 10000
-          }
-          {
-            "name": "Alice",
-            "cardNumber": 13245675,
-            "limit": 100000,
-            "balance": 10000
-          }
-        ]
-    400/415/500 -
-        {
-          "reasonCode": "1001",
-          "description": "Invalid Data Received",
-          "source": "CCP"
-        }
+b) http://localhost:8081/ccp/credits as GET for getting all credits.
+
+   Mandatory headers: X-Correlation-Id for tracking purpose.
+
+   Request Body: No Body Required.
+
+   Response Body:
+   200 OK -
+    [
+      {
+        "name": "John",
+        "cardNumber": 654428635281,
+        "limit": 100000,
+        "balance": 10000
+      }
+      {
+        "name": "Alice",
+        "cardNumber": 13245675,
+        "limit": 100000,
+        "balance": 10000
+      }
+    ]
+
+   400/415/500 -
+    {
+      "reasonCode": "1001",
+      "description": "Invalid Data Received",
+      "source": "CCP"
+    }
+
+c) The database can be reached using http://localhost:8081/h2-console and below DB details:
+
+    url: jdbc:h2:mem:db
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
 
 

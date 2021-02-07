@@ -32,6 +32,31 @@ public class CardProcessingServiceImpl implements CardProcessingService {
      */
     @Override
     public void addCredits(CreditCardDetails creditCardDetails) {
+        validateCard(creditCardDetails);
+
+        CreditCard creditCard = mapCreditDetailsToDBEntity(creditCardDetails);
+        cardProcessingRepository.saveAndFlush(creditCard);
+    }
+
+    /**
+     * To get all the Credit card details
+     * @return list of Credit card details
+     */
+    @Override
+    public List<CreditCardDetails> getAllCreditCardDetails() {
+        List<CreditCard> creditCardList = cardProcessingRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        return mapDBEntityToCreditCardDetails(creditCardList);
+    }
+
+    /**
+     * Validates Card Number
+     * 1. Checks if the card Number has no more than 19 digits
+     * 2. Applies Luhn 10 validation on card Number
+     * 3. Check for duplicate entries in the card
+     *
+     * @param creditCardDetails
+     */
+    private void validateCard(CreditCardDetails creditCardDetails) {
         //Check for 19 digits i cardNumber
         int digits = creditCardDetails.getCardNumber().toString().length();
         if (digits>19)
@@ -46,19 +71,6 @@ public class CardProcessingServiceImpl implements CardProcessingService {
         Optional<CreditCard> creditCardList = cardProcessingRepository.findByCardNumber(creditCardDetails.getCardNumber());
         if (creditCardList.isPresent())
             throw new IllegalArgumentException("Card Number Already exists in database");
-
-        CreditCard creditCard = mapCreditDetailsToDBEntity(creditCardDetails);
-        cardProcessingRepository.saveAndFlush(creditCard);
-    }
-
-    /**
-     * To get all the Credit card details
-     * @return list of Credit card details
-     */
-    @Override
-    public List<CreditCardDetails> getAllCreditCardDetails() {
-        List<CreditCard> creditCardList = cardProcessingRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
-        return mapDBEntityToCreditCardDetails(creditCardList);
     }
 
     /**
