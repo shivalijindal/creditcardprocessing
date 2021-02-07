@@ -52,6 +52,11 @@
 			<version>2.0.1.Final</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>7.0.0.Final</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-data-rest</artifactId>
 			<version>1.5.3</version>
@@ -104,6 +109,10 @@
 							<generateApis>true</generateApis>
 							<generateModels>true</generateModels>
 							<output>target/generated-sources</output>
+							<typeMappings>
+								<typeMapping>Integer=java.math.BigInteger</typeMapping>
+								<typeMapping>Double=java.math.BigDecimal</typeMapping>
+							</typeMappings>
 							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
 							<configOptions>
 								<sourceFolder>ccp</sourceFolder>
@@ -112,6 +121,7 @@
 								<library>spring-mvc</library>
 								<interfaceOnly>true</interfaceOnly>
 								<useBeanValidation>true</useBeanValidation>
+								<performBeanValidation>true</performBeanValidation>
 							</configOptions>
 						</configuration>
 					</execution>

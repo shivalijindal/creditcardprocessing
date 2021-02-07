@@ -33,9 +33,24 @@ paths:
               $ref: '#/components/schemas/CreditCardDetails'
         required: true
       responses:
-        405:
-          description: Invalid input
-          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        415:
+          description: Invalid media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     get:
       tags:
         - ccp
@@ -59,8 +74,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/CreditCardDetails'
         400:
-          description: Invalid status value
-          content: {}
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     CreditCardDetails:
@@ -75,7 +99,8 @@ components:
           example: John
         cardNumber:
           type: integer
-          format: int64
+          #maximum: 9999999999999999999
+          maximum: 99999999
           example: 654428635281
         limit:
           type: number
@@ -85,3 +110,19 @@ components:
           type: number
           format: double
           example: 10000
+    Error:
+      required:
+        - reasonCode
+        - description
+        - source
+      type: object
+      properties:
+        reasonCode:
+          type: string
+          example: 1001
+        description:
+          type: string
+          example: Invalid Data Received
+        source:
+          type: string
+          example: CCP

@@ -4,6 +4,9 @@ import com.learning.model.CreditCardDetails;
 
 import java.util.List;
 
+/**
+ * CardProcessingService provides adding and getting credit card details from the database.
+ */
 public interface CardProcessingService {
 
     /**

@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
@@ -47,9 +49,9 @@ public class CreditsApiControllerTest {
         //Create Mock data
         CreditCardDetails creditCard = new CreditCardDetails();
         creditCard.name("Tim")
-                .cardNumber(73342639365L)
-                .limit(Double.valueOf(300000))
-                .balance(Double.valueOf(100));
+                .cardNumber(new BigInteger("73342639365"))
+                .limit(BigDecimal.valueOf(300000))
+                .balance(BigDecimal.valueOf(100));
 
         //Mock getAllCredits service call
         Mockito.when(cardProcessingService.getAllCreditCardDetails()).thenReturn(List.of(creditCard));

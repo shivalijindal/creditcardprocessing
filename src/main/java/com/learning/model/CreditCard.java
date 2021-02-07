@@ -1,7 +1,12 @@
 package com.learning.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
+/**
+ * DB Entity Class maps to the Table credit_card_details
+ */
 @Entity
 @Table(name = "credit_card_details")
 public class CreditCard {
@@ -14,15 +19,15 @@ public class CreditCard {
     private String name;
 
     @Column(name = "card_number")
-    private Long cardNumber;
+    private BigInteger cardNumber;
 
     @Column(name = "card_limit")
-    private Double limit;
+    private BigDecimal limit;
 
     @Column(name = "card_balance")
-    private Double balance;
+    private BigDecimal balance;
 
-    CreditCard(final Long id, final String name, final Long cardNumber, final Double limit, final Double balance) {
+    CreditCard(final Long id, final String name, final BigInteger cardNumber, final BigDecimal limit, final BigDecimal balance) {
         this.id = id;
         this.name = name;
         this.cardNumber = cardNumber;
@@ -39,15 +44,15 @@ public class CreditCard {
         return name;
     }
 
-    public Long getCardNumber() {
+    public BigInteger getCardNumber() {
         return cardNumber;
     }
 
-    public Double getLimit() {
+    public BigDecimal getLimit() {
         return limit;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
@@ -58,9 +63,9 @@ public class CreditCard {
     public static class CreditCardBuilder {
         private Long id;
         private String name;
-        private Long cardNumber;
-        private Double limit;
-        private Double balance;
+        private BigInteger cardNumber;
+        private BigDecimal limit;
+        private BigDecimal balance;
 
         CreditCardBuilder() {
         }
@@ -75,17 +80,17 @@ public class CreditCard {
             return this;
         }
 
-        public CreditCard.CreditCardBuilder cardNumber(final Long cardNumber) {
+        public CreditCard.CreditCardBuilder cardNumber(final BigInteger cardNumber) {
             this.cardNumber = cardNumber;
             return this;
         }
 
-        public CreditCard.CreditCardBuilder limit(final Double limit) {
+        public CreditCard.CreditCardBuilder limit(final BigDecimal limit) {
             this.limit = limit;
             return this;
         }
 
-        public CreditCard.CreditCardBuilder balance(final Double balance) {
+        public CreditCard.CreditCardBuilder balance(final BigDecimal balance) {
             this.balance = balance;
             return this;
         }
