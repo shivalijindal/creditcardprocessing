@@ -50,18 +50,12 @@ public class CardProcessingServiceImpl implements CardProcessingService {
 
     /**
      * Validates Card Number
-     * 1. Checks if the card Number has no more than 19 digits
-     * 2. Applies Luhn 10 validation on card Number
-     * 3. Check for duplicate entries in the card
+     * 1. Applies Luhn 10 validation on card Number
+     * 2. Check for duplicate entries in the card
      *
      * @param creditCardDetails
      */
     private void validateCard(CreditCardDetails creditCardDetails) {
-        //Check for 19 digits i cardNumber
-        int digits = creditCardDetails.getCardNumber().toString().length();
-        if (digits>19)
-            throw new IllegalArgumentException("Card Number is greater that 19 digits");
-
         //Luhn10 Check
         boolean isCardNumberValid = cardValidationService.isCreditCardValid(creditCardDetails.getCardNumber());
         if (!isCardNumberValid)

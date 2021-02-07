@@ -98,9 +98,9 @@ components:
           type: string
           example: John
         cardNumber:
-          type: integer
-          #maximum: 9999999999999999999
-          maximum: 99999999
+          type: number
+          format: float
+          maximum: 9999999999999999999
           example: 654428635281
         limit:
           type: number

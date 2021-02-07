@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -114,6 +115,32 @@ class CreditCardProcessingApplicationTests {
 		{
 			assertEquals("1400",((Error)responseEntity.getBody()).getReasonCode(), "Reason Code does not match");
 			assertEquals("BAD_REQUEST: Card Number Failed Luhn10 Check",((Error)responseEntity.getBody()).getDescription(), "Description does not match");
+			assertEquals("CCP",((Error)responseEntity.getBody()).getSource(), "Source does not match");
+		});
+	}
+
+	@DisplayName("Test Add Credit API with Card Number longer than 19")
+	@Test
+	public void testAddCredits_CardNumberLongerThan19() {
+		//Create Test Data
+		CreditCardDetails creditCard = new CreditCardDetails();
+		creditCard.name("Tim")
+				.cardNumber(new BigInteger("13245674781234567890"))
+				.limit(BigDecimal.valueOf(300000))
+				.balance(BigDecimal.valueOf(100));
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("X-Correlation-Id", "945795846");
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<CreditCardDetails> request = new HttpEntity(creditCard, headers);
+		ResponseEntity responseEntity = restTemplate.postForEntity(HOST+port+"/ccp/credits",request,Error.class);
+		Assertions.assertEquals(HttpStatus.BAD_REQUEST,responseEntity.getStatusCode(),"Http Status Code does not match");
+		Assertions.assertEquals(Error.class,responseEntity.getBody().getClass(), "Response Class doe not match");
+		Assertions.assertAll(() ->
+		{
+			assertEquals("1400",((Error)responseEntity.getBody()).getReasonCode(), "Reason Code does not match");
+			assertTrue(((Error)responseEntity.getBody()).getDescription().contains("must be less than or equal to 9999999999999999999"), "Description does not match");
 			assertEquals("CCP",((Error)responseEntity.getBody()).getSource(), "Source does not match");
 		});
 	}

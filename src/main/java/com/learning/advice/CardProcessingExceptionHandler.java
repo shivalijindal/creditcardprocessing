@@ -45,7 +45,7 @@ public class CardProcessingExceptionHandler extends ResponseEntityExceptionHandl
      */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        LOG.info("Failure Occured during Credit Processing: ", ex);
+        LOG.info("Failure Occurred during Credit Processing: ", ex);
         Error error = new Error();
         error.reasonCode("1"+status.value())
                 .description(status.name() + ": " + ex.getMessage())

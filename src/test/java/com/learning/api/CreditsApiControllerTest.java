@@ -1,6 +1,5 @@
 package com.learning.api;
 
-import com.learning.model.CreditCard;
 import com.learning.model.CreditCardDetails;
 import com.learning.service.CardProcessingService;
 import org.junit.jupiter.api.DisplayName;

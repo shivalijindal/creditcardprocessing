@@ -118,26 +118,6 @@ public class CardProcessingServiceTest {
         Mockito.verify(cardValidationService, VerificationModeFactory.times(1)).isCreditCardValid(Mockito.any());
     }
 
-    @DisplayName("Test Add Credit Service with invalid card number longer than 19 digits")
-    @Test
-    public void testAddCredits_CardValidationDigitCountFailure() {
-        //Create Input data
-        CreditCardDetails cardDetails = new CreditCardDetails();
-        cardDetails.name("Hillary")
-                .cardNumber(new BigInteger("938364528464098643576432"))
-                .limit(BigDecimal.valueOf(30000))
-                .balance(BigDecimal.valueOf(100));
-
-        //Mocking validation call
-        Mockito.when(cardValidationService.isCreditCardValid(Mockito.any(BigInteger.class))).thenReturn(false);
-
-        //Test method call
-        assertThrows(IllegalArgumentException.class,
-                ()->{
-                    cardProcessingService.addCredits(cardDetails);
-                });
-    }
-
     @DisplayName("Test Add Credit Service with duplicate card number")
     @Test
     public void testAddCredits_DuplicateCard() {

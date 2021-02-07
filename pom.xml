@@ -51,7 +51,11 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>7.0.0.Final</version>
+			<version>6.0.13.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -107,7 +111,7 @@
 							<generateModels>true</generateModels>
 							<output>target/generated-sources</output>
 							<typeMappings>
-								<typeMapping>Integer=java.math.BigInteger</typeMapping>
+								<typeMapping>Float=java.math.BigInteger</typeMapping>
 								<typeMapping>Double=java.math.BigDecimal</typeMapping>
 							</typeMappings>
 							<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
